@@ -1,5 +1,7 @@
 #include<stdio.h>
 #include<string.h>
+#include<time.h>
+#include<stdlib.h>
 // function that can test whether an array is a magic square or not:
 /*
 {00,01,02}
@@ -57,17 +59,67 @@ int check_square(int arr[3][3]){
         return 1;
     }
 }
-
+int fill_array(int arr[3][3]){
+    srand(time(0));
+    int random_number;
+    int unique = 1;
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            while(unique != 1){
+                random_number = (rand() % 8) + 1;
+                unique = 1;
+                for (int x = 0; x < 3; x++)
+                {
+                    for (int y = 0; y < 3; y++)
+                    {
+                        if (arr[x][y] == random_number)
+                        {
+                            unique = 0;
+                            arr[i][j] = random_number;
+                        }
+                        printf("y is %d\n",y);
+                    }
+                    printf("x is %d\n",x);
+                }
+            }
+            printf("j is %d\n",j);
+        }
+        printf("i is %d\n",i);
+    }
+    
+}
+void printArray(int arr[3][3]){
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            printf("%d ", arr[i][j]);
+        } 
+    }
+}
 
 int main(){
+    // to creat random numbers
+    srand(time(0));
+    int status = 1;
+    int random_number;
     // init the two dimensional array
     int square[3][3]={
-        {4,9,2},
-        {3,5,7},
-        {8,1,6}
+        {1,2,3},
+        {4,5,6},
+        {7,8,9}
     };
+    
+    fill_array(square);
+    
+    printArray(square);
+    // generate a random number
+    // check if the number is already in the list
+    // if it is make a new number
     // pass it to the function
-    check_square(square);
+    //check_square(square);
     // print if its a magic square or not
     return 0;
 }
