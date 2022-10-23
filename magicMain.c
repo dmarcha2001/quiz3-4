@@ -61,34 +61,31 @@ int check_square(int arr[3][3]){
 }
 int fill_array(int arr[3][3]){
     srand(time(0));
-    int random_number;
-    int unique = 1;
-    for (int i = 0; i < 3; i++)
+    int rows,columns;
+    int random,i;
+    int randvalues[9],m=0;
+    int t,j;  
+
+    for(i=0;i<9;i++)     //assigning values 1 to 9
+         randvalues[i]=i+1;
+
+    for(i=0;i<9;i++)      //shuffle logic
     {
-        for (int j = 0; j < 3; j++)
-        {
-            while(unique != 1){
-                random_number = (rand() % 8) + 1;
-                unique = 1;
-                for (int x = 0; x < 3; x++)
-                {
-                    for (int y = 0; y < 3; y++)
-                    {
-                        if (arr[x][y] == random_number)
-                        {
-                            unique = 0;
-                            arr[i][j] = random_number;
-                        }
-                        printf("y is %d\n",y);
-                    }
-                    printf("x is %d\n",x);
-                }
-            }
-            printf("j is %d\n",j);
-        }
-        printf("i is %d\n",i);
+         j=i+rand()/(RAND_MAX/(9-i) + 1);
+         t=randvalues[j];
+         randvalues[j] = randvalues[i];
+         randvalues[i] = t;
     }
-    
+    for(rows=0;rows<3;rows++) //conversion from 1-D to 2-D array and printning
+    {
+        for(columns=0;columns<3;columns++)
+        {
+            arr[rows][columns] = randvalues[m++];
+            printf("%d " , arr[rows][columns]);
+        }
+        printf("\n");
+    }
+    return 0;
 }
 void printArray(int arr[3][3]){
     for (int i = 0; i < 3; i++)
@@ -101,25 +98,12 @@ void printArray(int arr[3][3]){
 }
 
 int main(){
-    // to creat random numbers
-    srand(time(0));
-    int status = 1;
-    int random_number;
-    // init the two dimensional array
-    int square[3][3]={
-        {1,2,3},
-        {4,5,6},
-        {7,8,9}
-    };
-    
-    fill_array(square);
-    
-    printArray(square);
-    // generate a random number
-    // check if the number is already in the list
-    // if it is make a new number
-    // pass it to the function
-    //check_square(square);
-    // print if its a magic square or not
+    // init the array;
+    int array[3][3];
+    //generate the array;
+    fill_array(array);
+    //check if its a lo sho magic square;
+    check_square(array);
+
     return 0;
 }
