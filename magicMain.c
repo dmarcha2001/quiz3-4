@@ -8,6 +8,7 @@
 {10,11,12}
 {20,21,22}
 */
+void printArray(int arr[3][3]);
 int check_square(int arr[3][3]){
     // if one of the checks is true then it is not a lo shu magic square
     // check for horizontal lines
@@ -60,32 +61,31 @@ int check_square(int arr[3][3]){
     }
 }
 int fill_array(int arr[3][3]){
-    srand(time(0));
-    int rows,columns;
-    int random,i;
-    int randvalues[9],m=0;
-    int t,j;  
-
-    for(i=0;i<9;i++)     //assigning values 1 to 9
-         randvalues[i]=i+1;
-
-    for(i=0;i<9;i++)      //shuffle logic
-    {
-         j=i+rand()/(RAND_MAX/(9-i) + 1);
-         t=randvalues[j];
-         randvalues[j] = randvalues[i];
-         randvalues[i] = t;
+    //this will creat a 1d array that is random
+    int array_one[9];
+    int i;
+    for (i = 0; i < 9; ++i)
+        array_one[i] = i+1;
+    for (i = 0; i < 9; ++i) {
+        int *a = &array_one[ i ];
+        int *b = &array_one[ (rand() % 8)+1 ];
+    
+        int temp = *a;
+        *a = *b;
+        *b = temp;
     }
-    for(rows=0;rows<3;rows++) //conversion from 1-D to 2-D array and printning
+    //this will assign the 1d array into a 2d array
+    //arr[0][0] = array_one[0];
+    int counter = 0;
+    for (int i = 0; i < 3; i++)
     {
-        for(columns=0;columns<3;columns++)
+        for (int j = 0; j < 3; j++)
         {
-            arr[rows][columns] = randvalues[m++];
-            printf("%d " , arr[rows][columns]);
-        }
-        printf("\n");
+             arr[i][j] = array_one[counter];
+             counter++;
+        } 
     }
-    return 0;
+    
 }
 void printArray(int arr[3][3]){
     for (int i = 0; i < 3; i++)
@@ -94,16 +94,30 @@ void printArray(int arr[3][3]){
         {
             printf("%d ", arr[i][j]);
         } 
+        printf("\n");
     }
 }
 
 int main(){
     // init the array;
     int array[3][3];
-    //generate the array;
-    fill_array(array);
-    //check if its a lo sho magic square;
-    check_square(array);
+    int status = 0;
+    int counter = 0;
+    do
+    {
+        // increment counter
+        counter++;
+        // generate an array
+        fill_array(array);
+        printArray(array);
+        // check if its a lo shu magic square
+        if (check_square(array) == 1)
+        {
+            status = 1;
+            printf("a magic square has been found\n");
+            printf("number of attempts: %d\n",counter);
+        }
+    } while (status != 1);
 
     return 0;
 }
